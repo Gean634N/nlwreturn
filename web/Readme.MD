@@ -13,21 +13,40 @@
 5. Navegue até a pasta da aplicação, ex: caso o nome do projeto seja 'web' `cd web`
 6. Rode o comando `npm install`
 7. Instale o tailwindCSS -> [site oficial](https://https://tailwindcss.com/docs/installation/using-postcss)
+   `npm install -D tailwind CSS postcss autoprefixer`
+   `npx tailwind CSS init`
+8. Instale o plugin @tailwindcss/forms -> [site oficial](https://github.com/tailwindlabs/tailwindcss-forms)
+   `npm install -D @tailwindcss/forms`
+9. Instale o plugin tailwind-scrollbar
+   `npm install --save-dev tailwind-scrollbar`
+10. No arquivo `tailwind.config.js` adicione os plugins
 
-   > `npm install -D tailwind CSS postcss autoprefixer`
-   > `npx tailwind CSS init`
-   >
-8. Instale o phosphor icons -> [site oficial](https://phosphoricons.com/)
+```
+   // tailwind.config.js
+   module.exports = {
+      theme: {
+      // ...
+      },
+      plugins: [
+         require('@tailwindcss/forms'),
+         require('tailwind-scrollbar'),
+      // ...
+      ],
+   }
+```
 
-   > `npm install --save phosphor-react`
-   >
-9. Instale o headless UI -> [site oficial](https://headlessui.dev/)
+11. Instale o phosphor icons -> [site oficial](https://phosphoricons.com/)
 
-   > `npm install @headlessui/react`
-   >
-10. Utilize os comandos git para salvar as configurações iniciais
+    > `npm install --save phosphor-react`
+    >
+12. Instale o headless UI -> [site oficial](https://headlessui.dev/)
+
+    > `npm install @headlessui/react`
+    >
+13. Utilize os comandos git para salvar as configurações iniciais
 
     > `git init`
     > `git branch -m master main`
     > `git add .`
     > `git commit -m "cria setup inicial" -m "cria um projeto react-ts com vite, instala tailwind CSS, phosphor icons e headless UI"`
+    >
