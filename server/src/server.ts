@@ -15,7 +15,7 @@ const transport = nodemailer.createTransport({
   }
 });
 
-app.get('/', (_req, res) => res.send('Get test'));
+// app.get('/', (_req, res) => res.send('Get test'));
 
 app.post('/feedbacks', async (req, res) => {
   const { type, comment, screenshot } = req.body;
@@ -32,10 +32,15 @@ app.post('/feedbacks', async (req, res) => {
     from: 'Equipe Feedget <oi@feedget.com>',
     to: 'gean634n@gmail.com',
     subject: 'novo feedback',
-    html: `<p>Feedback</p>`
+    html: [
+      `<div>`,
+      `<p>Tipo do feedback: ${type}</p>`,
+      `<p>comentário: ${comment}</p>`,
+      `</div>`
+    ].join('\n')
   });
-  
-  return res.status(201).json({data: feedback});
+
+  return res.status(201).json({ data: feedback });
 });
 
 app.listen(3333, () => {
