@@ -5,8 +5,6 @@ import { SubmitFeedbackUseCase } from "./useCases/submitFeedbackUseCase";
 
 export const routes = Router();
 
-routes.get('/', (req, res) => res.json({ message: "test de coneção" }))
-
 routes.post('/feedbacks', async (req, res) => {
   const { type, comment, screenshot } = req.body;
 
