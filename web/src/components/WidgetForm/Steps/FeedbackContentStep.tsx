@@ -3,6 +3,8 @@ import { CloseButton } from "../../CloseButton";
 import { FeedbackType, feedbackTypes } from '../index';
 import { ScreenshotButton } from "../ScreenshotButton";
 import { FormEvent, useState } from 'react';
+import { api } from "../../../lib/api";
+import { Loading } from "../../Loading";
 
 interface FeedbackContentStepProps {
   feedbackType: FeedbackType;
@@ -11,15 +13,26 @@ interface FeedbackContentStepProps {
 }
 
 
-export function FeedbackContentStep({feedbackType, onFeedbackRestartRequeste, onFeedbackSent}: FeedbackContentStepProps) {
+export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequeste, onFeedbackSent }: FeedbackContentStepProps) {
   const [screenshot, setScreenshot] = useState<string | null>(null);
-  const [comment, setComment] =useState('');
+  const [comment, setComment] = useState('');
+  const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 
   const feedbackTypeInfo = feedbackTypes[feedbackType];
 
-  function handleSubmitFeedback(e: FormEvent) {
+  async function handleSubmitFeedback(e: FormEvent) {
     e.preventDefault();
-    console.log({screenshot, comment});
+
+    setIsSendingFeedback(true);
+
+    await api.post('feedbacks', {
+      type: feedbackType,
+      comment,
+      screenshot,
+    })
+
+    setIsSendingFeedback(false);
+
 
     onFeedbackSent();
   };
@@ -32,7 +45,7 @@ export function FeedbackContentStep({feedbackType, onFeedbackRestartRequeste, on
           className="top-5 left-5 absolute text-zinc-400 hover:text-zinc-100"
           onClick={onFeedbackRestartRequeste}
         >
-          <ArrowLeft weight="bold" className="w-4 h-4"/>
+          <ArrowLeft weight="bold" className="w-4 h-4" />
         </button>
 
         <span className="text-xl leading-6 flex items-center gap-2">
@@ -61,10 +74,10 @@ export function FeedbackContentStep({feedbackType, onFeedbackRestartRequeste, on
 
           <button
             type="submit"
-            disabled={comment.length === 0}
+            disabled={comment.length === 0 || isSendingFeedback}
             className="p-2 bg-brand-500 rounded-md border-transparent flex flex-1 justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
           >
-            Enviar feedback
+            {isSendingFeedback ? <Loading /> : 'Enviar feedback'}
           </button>
         </footer>
       </form>
